@@ -17,17 +17,22 @@ export class AccountsService {
   public async getUserFullHistory(
     accounts: AccountDto[],
   ): Promise<TransactionDto[]> {
-    const allUserData = accounts.map(
+    const allTransactionsFromAllAccounts = accounts.map(
       async (account) =>
         await this.getAllTransactionsFromAccount(account.account_id),
     );
 
-    return (await Promise.all(allUserData))
+    const transactionsOrderedByDate = (
+      await Promise.all(allTransactionsFromAllAccounts)
+    )
       .flat(1)
-      .sort(
-        (a, b) =>
-          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
-      );
+      .sort(this.compareTransactionDate);
+
+    return transactionsOrderedByDate;
+  }
+
+  private compareTransactionDate(a: TransactionDto, b: TransactionDto): number {
+    return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
   }
 
   private async getAllTransactionsFromAccount(
@@ -36,10 +41,11 @@ export class AccountsService {
     const oldestTransaction = await this.apiService.getOldestTransaction(
       accountId,
     );
-    const oldestTransactionDate = new Date(oldestTransaction?.timestamp);
-    const dateIntervals = chunkDateRange(oldestTransactionDate, new Date(), 10); // todo year size
+    const dateIntervals = this.getYearlyIntervalFromDate(
+      new Date(oldestTransaction?.timestamp),
+    );
 
-    const transactionsPerAccountsPerDateInterval: Promise<TransactionDto[]>[] =
+    const transactionsPerDateInterval: Promise<TransactionDto[]>[] =
       dateIntervals.map(async (interval: DateInterval) =>
         this.apiService.getTransactions(
           accountId,
@@ -48,14 +54,27 @@ export class AccountsService {
         ),
       );
 
-    // cleanup this line ?
-    return (await Promise.all(transactionsPerAccountsPerDateInterval)).flat(1);
+    const accountTransactions = (
+      await Promise.all(transactionsPerDateInterval)
+    ).flat(1);
+
+    return accountTransactions;
+  }
+
+  // The api may reject the values due to gap years ? to investigate
+  private getYearlyIntervalFromDate(
+    startDate: Date,
+    endDate = new Date(),
+  ): DateInterval[] {
+    const numberOfChunks = endDate.getFullYear() - startDate.getFullYear();
+    const dateIntervals = chunkDateRange(startDate, endDate, numberOfChunks);
+    return dateIntervals;
   }
 
   // Note: this is valid for amounts in a single currency
   public calculateAccountAmountOverTimeFromCurrent(
     transactions: TransactionDto[],
-    currentAccountValue = 6357,
+    currentAccountValue = 0,
   ): number[] {
     const amountOverTime = [currentAccountValue];
 
@@ -64,7 +83,7 @@ export class AccountsService {
         amountOverTime[i] - transactions[transactions.length - i - 1].amount;
     }
 
-    // could optimise
+    // TODO could optimise, and move to separate function ofc
     console.dir(Math.floor(Math.max(...amountOverTime)));
     console.dir(Math.floor(Math.min(...amountOverTime)));
 
