@@ -11,12 +11,13 @@ export class AppService {
 
   async getAnswer(): Promise<string> {
     // return JSON.stringify(await this.accountsService.getAccounts());
-    return JSON.stringify(
-      await this.accountsService.getTransactions(
-        'afcf2bd0-9a72-11e9-86ef-07c2f863fee7',
-        new Date('2019-08-01'),
-        new Date('2020-07-31'),
-      ),
-    );
+    // return JSON.stringify(
+    //   await this.apiService.getTransactions(
+    //     'afcf2bd0-9a72-11e9-86ef-07c2f863fee7',
+    //     new Date('2019-08-01'),
+    //     new Date('2020-07-31'),
+    //   ),
+    // );
+    return JSON.stringify(await this.accountsService.getAllUserHistory());
   }
 }
