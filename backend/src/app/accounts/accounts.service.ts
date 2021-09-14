@@ -3,35 +3,57 @@ import * as chunkDateRange from 'chunk-date-range';
 
 import { ApiService } from './api.service';
 import { TransactionDto } from 'src/common/dtos/transaction.dto';
+import { DateInterval } from 'src/common/interfaces';
 
 @Injectable()
 export class AccountsService {
   constructor(private readonly apiService: ApiService) {}
 
-  public async getAllUserHistory(): Promise<TransactionDto[][]> {
+  public async getAllUserHistory(): Promise<TransactionDto[]> {
     const accounts = await this.apiService.getAccounts();
 
-    const allUserData = accounts.map((account) =>
-      this.getAllTransactionsFromAccount(account.account_id),
+    const allUserData = accounts.map(
+      async (account) =>
+        await this.getAllTransactionsFromAccount(account.account_id),
     );
 
-    return await Promise.all(allUserData);
+    // WE CAN NOT DO A FLAT HERE, WE HAVE TO ORDER BY DATE
+    return (await Promise.all(allUserData)).flat(1);
   }
 
-  public async getAllTransactionsFromAccount(
+  private async getAllTransactionsFromAccount(
     accountId: string,
   ): Promise<TransactionDto[]> {
-    let oldestTransactions = await this.apiService.getOldestTransaction(
+    const oldestTransaction = await this.apiService.getOldestTransaction(
       accountId,
     );
-    const oldestTransactionDate = new Date(oldestTransactions?.timestamp);
+    const oldestTransactionDate = new Date(oldestTransaction?.timestamp);
     const dateIntervals = chunkDateRange(oldestTransactionDate, new Date(), 10); // todo year size
 
-    // TODO any.
-    const transactionsPerAccounts = dateIntervals.map(async (interval: any) =>
-      this.apiService.getTransactions(accountId, interval.start, interval.end),
-    );
+    const transactionsPerAccountsPerDateInterval: Promise<TransactionDto[]>[] =
+      dateIntervals.map(async (interval: DateInterval) =>
+        this.apiService.getTransactions(
+          accountId,
+          interval.start,
+          interval.end,
+        ),
+      );
 
-    return await Promise.all(transactionsPerAccounts);
+    // cleanup this line ?
+    return (await Promise.all(transactionsPerAccountsPerDateInterval)).flat(1);
+  }
+
+  // Note: this is valid for amounts in a single currency
+  public calculateAccountAmountOverTime(
+    transactions: TransactionDto[],
+    initialAccountValue = 0,
+  ): number[] {
+    const amountOverTime = [initialAccountValue];
+
+    for (let i = 0; i < transactions.length; i++) {
+      amountOverTime[i + 1] = amountOverTime[i] + transactions[i].amount;
+    }
+
+    return amountOverTime;
   }
 }

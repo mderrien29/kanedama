@@ -18,6 +18,13 @@ export class AppService {
     //     new Date('2020-07-31'),
     //   ),
     // );
-    return JSON.stringify(await this.accountsService.getAllUserHistory());
+    const transactions =
+      await this.accountsService.getAllUserHistory();
+
+    return JSON.stringify(
+      this.accountsService.calculateAccountAmountOverTime(
+        transactionsPerAccount,
+      ),
+    );
   }
 }
