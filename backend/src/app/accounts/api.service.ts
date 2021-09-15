@@ -1,4 +1,5 @@
 import { Injectable, HttpService } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { map } from 'rxjs/operators';
 
 import { TransactionDto } from 'src/common/dtos/transaction.dto';
@@ -6,10 +7,13 @@ import { AccountDto } from 'src/common/dtos/account.dto';
 
 @Injectable()
 export class ApiService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
+  ) {}
 
   private get accountsBaseUrl() {
-    return `https://kata.getmansa.com/accounts`;
+    return this.configService.get('ACCOUNT_URI');
   }
 
   private async request<T>(url: string): Promise<T> {

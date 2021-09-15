@@ -20,6 +20,7 @@
   "dependencies": {
     "@nestjs/axios": "0.0.1",
     "@nestjs/common": "7.6.18",
+    "@nestjs/config": "^1.0.1",
     "@nestjs/core": "7.6.18",
     "@nestjs/platform-express": "7.6.18",
     "chunk-date-range": "^0.1.0",
