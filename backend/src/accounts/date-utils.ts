@@ -1,5 +1,9 @@
-import { DateInterval } from 'src/common/interfaces';
 import * as chunkDateRange from 'chunk-date-range';
+
+export interface DateInterval {
+  start: Date;
+  end: Date;
+}
 
 export const substractYearsToDate = (
   numberOfYears: number,
