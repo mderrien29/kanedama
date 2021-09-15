@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import * as chunkDateRange from 'chunk-date-range';
 
 import { ApiService } from './api.service';
 import { TransactionDto } from 'src/common/dtos/transaction.dto';
 import { DateInterval } from 'src/common/interfaces';
 import { AccountDto } from 'src/common/dtos/account.dto';
 import { AnswerDto } from 'src/common/dtos/answer.dto';
-import { getDateMonthBefore, getDateYearsBefore } from './utils';
+import {
+  substractMonthToDate,
+  substractYearsToDate,
+  getYearlyIntervalFromDate,
+} from './utils';
 
 @Injectable()
 export class AccountsService {
@@ -16,17 +19,17 @@ export class AccountsService {
     return await this.apiService.getAccounts();
   }
 
+  // maybe too long ?
   public async getUserMetrics(accounts: AccountDto[]): Promise<AnswerDto> {
-    const transactions = await this.getUserFullHistory(accounts);
+    const transactions = await this.getAllTransactions(accounts);
+
     const transactionsOrderedByDate = this.sortTransactionsByDate(transactions);
-
-    const currentAccountValue = this.sumAccountsCurrentAmount(accounts);
-    const amountOverTime = this.calculateAccountAmountOverTimeFromCurrent(
+    const accountsBalanceOverTime = this.calculateAccountAmountOverTime(
       transactionsOrderedByDate,
-      currentAccountValue,
+      accounts,
     );
+    const { min, max } = this.calculateMinMaxBalance(accountsBalanceOverTime);
 
-    const { min, max } = this.calculateMinMaxBalance(amountOverTime);
     const hadRecentActivity = this.hadRecentActivityLastYears(
       transactionsOrderedByDate,
       3,
@@ -41,33 +44,30 @@ export class AccountsService {
     );
   }
 
-  private async getUserFullHistory(
+  private async getAllTransactions(
     accounts: AccountDto[],
   ): Promise<TransactionDto[]> {
-    const allTransactionsFromAllAccounts = accounts.map(
+    const allTransactionsForEachAccount = accounts.map(
       async (account) =>
         await this.getAllTransactionsFromAccount(account.account_id),
     );
 
-    return (await Promise.all(allTransactionsFromAllAccounts)).flat(1);
+    return (await Promise.all(allTransactionsForEachAccount)).flat(1);
   }
 
-  private sortTransactionsByDate(
-    transactions: TransactionDto[],
-  ): TransactionDto[] {
-    return transactions.sort(this.compareTransactionDate.bind(this));
-  }
-
-  // Note: this is valid for amounts in a single currency
-  private calculateAccountAmountOverTimeFromCurrent(
-    transactions: TransactionDto[],
-    currentAccountValue = 0,
+  // this is valid for amounts in a single currency
+  private calculateAccountAmountOverTime(
+    transactionsOrderedByDate: TransactionDto[],
+    accounts: AccountDto[],
   ): number[] {
+    const currentAccountValue = this.sumAccountsCurrentAmount(accounts);
     const amountOverTime = [currentAccountValue];
 
-    for (let i = 0; i < transactions.length; i++) {
+    for (let i = 0; i < transactionsOrderedByDate.length; i++) {
       amountOverTime[i + 1] =
-        amountOverTime[i] - transactions[transactions.length - i - 1].amount;
+        amountOverTime[i] -
+        transactionsOrderedByDate[transactionsOrderedByDate.length - i - 1]
+          .amount;
     }
 
     return amountOverTime;
@@ -77,6 +77,7 @@ export class AccountsService {
     min: number;
     max: number;
   } {
+    // faster than using spread operator on large arrays
     const max = Math.max.apply(null, amountOverTime);
     const min = Math.min.apply(null, amountOverTime);
     return { min, max };
@@ -87,39 +88,34 @@ export class AccountsService {
     numberOfYears: number,
   ): boolean {
     const lastTransaction =
-      transactionsOrderedByDate[transactionsOrderedByDate.length - 1];
-    const recentTreshold = getDateYearsBefore(numberOfYears);
+      transactionsOrderedByDate[transactionsOrderedByDate.length - 1]; // how to force ordering the list ?
+    const dateRecentTreshold = substractYearsToDate(numberOfYears);
 
-    return this.isTransactionMoreRecentThan(lastTransaction, recentTreshold);
+    return this.isTransactionMoreRecentThan(
+      lastTransaction,
+      dateRecentTreshold,
+    );
   }
 
   private calculateAverageIncome(
     transactionsOrderedByDate: TransactionDto[],
     numberOfMonths: number,
   ): number {
-    const recentTreshold = getDateMonthBefore(
+    const dateLastTransaction = new Date(
+      transactionsOrderedByDate[transactionsOrderedByDate.length - 1].timestamp,
+    );
+    const dateRecentTreshold = substractMonthToDate(
       numberOfMonths,
-      new Date(
-        transactionsOrderedByDate[
-          transactionsOrderedByDate.length - 1
-        ].timestamp,
-      ),
+      dateLastTransaction,
     );
 
     const positiveRecentTransactions = this.filterPositiveRecentTransactions(
       transactionsOrderedByDate,
-      recentTreshold,
+      dateRecentTreshold,
     );
-    const totalIncome = positiveRecentTransactions.reduce(
-      (sum, transaction) => (sum += transaction.amount),
-      0,
-    );
+    const totalIncome = this.sumTransactionsAmounts(positiveRecentTransactions);
     const averageIncome = totalIncome / positiveRecentTransactions.length;
     return averageIncome;
-  }
-
-  private compareTransactionDate(a: TransactionDto, b: TransactionDto): number {
-    return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
   }
 
   private async getAllTransactionsFromAccount(
@@ -128,7 +124,7 @@ export class AccountsService {
     const oldestTransaction = await this.apiService.getOldestTransaction(
       accountId,
     );
-    const dateIntervals = this.getYearlyIntervalFromDate(
+    const dateIntervals = getYearlyIntervalFromDate(
       new Date(oldestTransaction?.timestamp),
     );
 
@@ -148,16 +144,6 @@ export class AccountsService {
     return accountTransactions;
   }
 
-  // The api might reject the values due to gap years ? to investigate
-  private getYearlyIntervalFromDate(
-    startDate: Date,
-    endDate = new Date(),
-  ): DateInterval[] {
-    const numberOfChunks = endDate.getFullYear() - startDate.getFullYear();
-    const dateIntervals = chunkDateRange(startDate, endDate, numberOfChunks);
-    return dateIntervals;
-  }
-
   private filterPositiveRecentTransactions(
     transactions: TransactionDto[],
     recentTreshold: Date,
@@ -168,6 +154,37 @@ export class AccountsService {
         this.isTransactionPositive(transaction)
       );
     });
+  }
+
+  private formatUserMetrics(
+    minBalance: number,
+    maxBalance: number,
+    averageIncomeLast6Month: number,
+    activeLast3Years: boolean,
+  ): AnswerDto {
+    return {
+      min_balance: Math.floor(minBalance),
+      max_balance: Math.floor(maxBalance),
+      '6_month_average_income': Math.floor(averageIncomeLast6Month),
+      '3_years_activity': activeLast3Years,
+    };
+  }
+
+  private sumTransactionsAmounts(transactions: TransactionDto[]): number {
+    return transactions.reduce(
+      (sum, transaction) => (sum += transaction.amount),
+      0,
+    );
+  }
+
+  private sortTransactionsByDate(
+    transactions: TransactionDto[],
+  ): TransactionDto[] {
+    return transactions.sort(this.compareTransactionDate.bind(this));
+  }
+
+  private compareTransactionDate(a: TransactionDto, b: TransactionDto): number {
+    return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
   }
 
   private isTransactionMoreRecentThan(
@@ -184,19 +201,5 @@ export class AccountsService {
 
   private sumAccountsCurrentAmount(accounts: AccountDto[]): number {
     return accounts.reduce((sum, account) => (sum += account.current), 0);
-  }
-
-  private formatUserMetrics(
-    minBalance: number,
-    maxBalance: number,
-    averageIncomeLast6Month: number,
-    activeLast3Years: boolean,
-  ): AnswerDto {
-    return {
-      min_balance: Math.floor(minBalance),
-      max_balance: Math.floor(maxBalance),
-      '6_month_average_income': Math.floor(averageIncomeLast6Month),
-      '3_years_activity': activeLast3Years,
-    };
   }
 }

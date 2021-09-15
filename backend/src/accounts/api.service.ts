@@ -34,7 +34,7 @@ export class ApiService {
     return response;
   }
 
-  private isAccountsDto(payload: any): payload is AccountDto[] {
+  private isAccountsDto(payload: unknown): payload is AccountDto[] {
     // TODO
     return true;
   }
@@ -50,7 +50,7 @@ export class ApiService {
     return response;
   }
 
-  private isTransactionDto(payload: any): payload is TransactionDto {
+  private isTransactionDto(payload: unknown): payload is TransactionDto {
     // TODO
     return true;
   }
