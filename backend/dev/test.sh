@@ -1,1 +1,1 @@
-curl localhost:3000/test
+curl localhost:3000/answer

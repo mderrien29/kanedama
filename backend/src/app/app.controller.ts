@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 
 import { AppService } from './app.service';
+import { AnswerDto } from 'src/common/dtos/answer.dto';
 
 @Controller()
 export class AppController {
@@ -11,8 +12,8 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('test')
-  test(): Promise<string> {
+  @Get('answer')
+  answer(): Promise<AnswerDto> {
     return this.appService.getAnswer();
   }
 }
