@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppController GET /answer should return the same service result 1`] = `
+Object {
+  "3_years_activity": true,
+  "6_month_average_income": 407,
+  "max_balance": 19540,
+  "min_balance": -4285,
+}
+`;

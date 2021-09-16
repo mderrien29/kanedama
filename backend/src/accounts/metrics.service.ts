@@ -98,12 +98,11 @@ export class MetricsService {
     transactions: TransactionDto[],
     recentTreshold: Date,
   ): TransactionDto[] {
-    return transactions.filter((transaction) => {
-      return (
+    return transactions.filter(
+      (transaction) =>
         this.isTransactionMoreRecentThan(transaction, recentTreshold) &&
-        this.isTransactionPositive(transaction)
-      );
-    });
+        this.isTransactionPositive(transaction),
+    );
   }
 
   private formatUserMetrics(

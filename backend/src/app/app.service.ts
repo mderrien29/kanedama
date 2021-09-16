@@ -6,10 +6,6 @@ import { AccountsService } from '../accounts/accounts.service';
 export class AppService {
   constructor(private readonly accountsService: AccountsService) {}
 
-  public getHello(): string {
-    return 'Hello World!';
-  }
-
   public async getAnswer(): Promise<AnswerDto> {
     const accounts = await this.accountsService.getUserAccounts();
     const answer = await this.accountsService.getUserMetrics(accounts);

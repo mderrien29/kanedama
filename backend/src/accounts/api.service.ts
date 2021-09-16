@@ -23,39 +23,17 @@ export class ApiService {
       .toPromise();
   }
 
-  public async getAccounts(): Promise<AccountDto[]> {
+  public getAccounts(): Promise<AccountDto[]> {
     const url = this.accountsBaseUrl;
-    const response = await this.request(url);
-
-    if (!this.isAccountsDto(response)) {
-      throw new Error('retrieved payload does not match the expected format');
-    }
-
-    return response;
+    return this.request(url);
   }
 
-  private isAccountsDto(payload: unknown): payload is AccountDto[] {
-    // TODO
-    return true;
-  }
-
-  public async getOldestTransaction(account: string): Promise<TransactionDto> {
+  public getOldestTransaction(account: string): Promise<TransactionDto> {
     const url = `${this.accountsBaseUrl}/${account}/transactions`;
-    const response = await this.request(url);
-
-    if (!this.isTransactionDto(response)) {
-      throw new Error('retrieved payload does not match the expected format');
-    }
-
-    return response;
+    return this.request(url);
   }
 
-  private isTransactionDto(payload: unknown): payload is TransactionDto {
-    // TODO
-    return true;
-  }
-
-  public async getTransactions(
+  public getTransactions(
     account: string,
     startDate?: Date,
     endDate?: Date,
@@ -65,13 +43,7 @@ export class ApiService {
       startDate,
       endDate,
     );
-    const response = await this.request(transactionsUrl);
-
-    if (!this.isTransactionDtoArray(response)) {
-      throw new Error('retrieved payload does not match the expected format');
-    }
-
-    return response;
+    return this.request(transactionsUrl);
   }
 
   // TODO use package to add params
@@ -83,9 +55,5 @@ export class ApiService {
     return `${
       this.accountsBaseUrl
     }/${account}/transactions?from=${startDate.toISOString()}&to=${endDate.toISOString()}`;
-  }
-
-  private isTransactionDtoArray(payload: any): payload is TransactionDto[] {
-    return payload.every(this.isTransactionDto.bind(this));
   }
 }
