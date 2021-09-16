@@ -23,7 +23,7 @@ export class AccountsService {
     return this.metricsService.getUserMetrics(accounts, transactions);
   }
 
-  private async getAllTransactions(
+  public async getAllTransactions(
     accounts: AccountDto[],
   ): Promise<TransactionDto[]> {
     const allTransactionsForEachAccount = accounts.map(
@@ -34,7 +34,7 @@ export class AccountsService {
     return (await Promise.all(allTransactionsForEachAccount)).flat(1);
   }
 
-  private async getAllTransactionsFromAccount(
+  public async getAllTransactionsFromAccount(
     accountId: string,
   ): Promise<TransactionDto[]> {
     const oldestTransaction = await this.apiService.getOldestTransaction(

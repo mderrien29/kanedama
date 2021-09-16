@@ -29,14 +29,14 @@ export class ApiService {
   }
 
   public getOldestTransaction(account: string): Promise<TransactionDto> {
-    const url = `${this.accountsBaseUrl}/${account}/transactions`;
+    const url = `${this.accountsBaseUrl}/${account}/transactions`; // TODO move
     return this.request(url);
   }
 
   public getTransactions(
     account: string,
-    startDate?: Date,
-    endDate?: Date,
+    startDate: Date,
+    endDate: Date,
   ): Promise<TransactionDto[]> {
     const transactionsUrl = this.formatTransactionUrl(
       account,

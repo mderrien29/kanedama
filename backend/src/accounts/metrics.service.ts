@@ -32,7 +32,7 @@ export class MetricsService {
     );
   }
 
-  private calculateAccountAmountOverTime(
+  public calculateAccountAmountOverTime(
     transactionsOrderedByDate: TransactionDto[],
     accounts: AccountDto[],
   ): number[] {
@@ -49,7 +49,7 @@ export class MetricsService {
     return amountOverTime;
   }
 
-  private calculateMinMaxBalance(amountOverTime: number[]): {
+  public calculateMinMaxBalance(amountOverTime: number[]): {
     min: number;
     max: number;
   } {
@@ -59,7 +59,7 @@ export class MetricsService {
     return { min, max };
   }
 
-  private hadRecentActivityLastYears(
+  public hadRecentActivityLastYears(
     transactionsOrderedByDate: TransactionDto[],
     numberOfYears: number,
   ): boolean {
@@ -73,7 +73,7 @@ export class MetricsService {
     );
   }
 
-  private calculateAverageIncome(
+  public calculateAverageIncome(
     transactionsOrderedByDate: TransactionDto[],
     numberOfMonths: number,
   ): number {
