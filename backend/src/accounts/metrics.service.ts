@@ -22,7 +22,10 @@ export class MetricsService {
       transactionsOrderedByDate,
       3,
     );
-    const averageRecentIncome = this.calculateAverageIncome(transactions, 6);
+    const averageRecentIncome = this.calculateAverageIncomeLastMonths(
+      transactions,
+      6,
+    );
 
     return this.formatUserMetrics(
       min,
@@ -73,7 +76,7 @@ export class MetricsService {
     );
   }
 
-  public calculateAverageIncome(
+  public calculateAverageIncomeLastMonths(
     transactionsOrderedByDate: TransactionDto[],
     numberOfMonths: number,
   ): number {

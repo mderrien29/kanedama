@@ -4,23 +4,13 @@ import { ApiService } from './api.service';
 import { TransactionDto } from 'src/common/dtos/transaction.dto';
 import { DateInterval, getYearlyIntervalFromDate } from './date-utils';
 import { AccountDto } from 'src/common/dtos/account.dto';
-import { AnswerDto } from 'src/common/dtos/answer.dto';
-import { MetricsService } from './metrics.service';
 
 @Injectable()
 export class AccountsService {
-  constructor(
-    private readonly apiService: ApiService,
-    private readonly metricsService: MetricsService,
-  ) {}
+  constructor(private readonly apiService: ApiService) {}
 
   public async getUserAccounts(): Promise<AccountDto[]> {
     return await this.apiService.getAccounts();
-  }
-
-  public async getUserMetrics(accounts: AccountDto[]): Promise<AnswerDto> {
-    const transactions = await this.getAllTransactions(accounts);
-    return this.metricsService.getUserMetrics(accounts, transactions);
   }
 
   public async getAllTransactions(
@@ -31,7 +21,7 @@ export class AccountsService {
         await this.getAllTransactionsFromAccount(account.account_id),
     );
 
-    return (await Promise.all(allTransactionsForEachAccount)).flat(1);
+    return this.flattenArrayOfPromise(allTransactionsForEachAccount);
   }
 
   public async getAllTransactionsFromAccount(
@@ -53,10 +43,10 @@ export class AccountsService {
         ),
     );
 
-    const accountTransactions = (
-      await Promise.all(transactionsPerDateInterval)
-    ).flat(1);
+    return this.flattenArrayOfPromise(transactionsPerDateInterval);
+  }
 
-    return accountTransactions;
+  private async flattenArrayOfPromise<T>(array: Promise<T[]>[]): Promise<T[]> {
+    return (await Promise.all(array)).flat(1);
   }
 }

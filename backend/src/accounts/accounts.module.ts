@@ -7,6 +7,6 @@ import { MetricsService } from './metrics.service';
 @Module({
   imports: [HttpModule],
   providers: [AccountsService, ApiService, MetricsService],
-  exports: [AccountsService, ApiService],
+  exports: [AccountsService, MetricsService],
 })
 export class AccountsModule {}

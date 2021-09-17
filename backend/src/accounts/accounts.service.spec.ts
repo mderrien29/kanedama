@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { AccountsService } from './accounts.service';
 
-describe('MetricsService', () => {
+describe('AccountsService', () => {
   let accountsService: AccountsService;
 
   beforeEach(async () => {
@@ -14,7 +14,6 @@ describe('MetricsService', () => {
   });
 
   describe.skip('getUserAccounts', () => {});
-  describe.skip('getUserMetrics', () => {});
   describe.skip('getAllTransactions', () => {});
   describe.skip('getAllTransactionsFromAccount', () => {});
 });

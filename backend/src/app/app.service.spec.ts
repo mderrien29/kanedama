@@ -6,6 +6,10 @@ describe('AppService', () => {
   let appService: AppService;
   const accountsServiceMock = {
     getUserAccounts: jest.fn(),
+    getAllTransactions: jest.fn(),
+  };
+
+  const metricsServiceMock = {
     getUserMetrics: jest.fn(() => ({
       '6_month_average_income': 407,
       '3_years_activity': true,
@@ -19,6 +23,7 @@ describe('AppService', () => {
       providers: [
         AppService,
         { provide: 'AccountsService', useFactory: () => accountsServiceMock },
+        { provide: 'MetricsService', useFactory: () => metricsServiceMock },
       ],
     }).compile();
 
