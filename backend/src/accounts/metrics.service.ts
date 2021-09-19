@@ -115,10 +115,10 @@ export class MetricsService {
     activeLast3Years: boolean,
   ): AnswerDto {
     return {
-      min_balance: Math.floor(minBalance),
-      max_balance: Math.floor(maxBalance),
       '6_month_average_income': Math.floor(averageIncomeLast6Month),
       '3_years_activity': activeLast3Years,
+      max_balance: Math.floor(maxBalance),
+      min_balance: Math.floor(minBalance),
     };
   }
 

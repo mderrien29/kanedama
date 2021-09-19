@@ -1,4 +1,4 @@
-import { HttpStatus, HttpException, Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, HttpException, Injectable } from '@nestjs/common';
 
 import { AnswerDto } from 'src/common/dtos/answer.dto';
 import { AccountDto } from 'src/common/dtos/account.dto';
@@ -8,8 +8,6 @@ import { MetricsService } from '../accounts/metrics.service';
 
 @Injectable()
 export class AppService {
-  private readonly logger = new Logger(this.constructor.name);
-
   constructor(
     private readonly accountsService: AccountsService,
     private readonly metricsService: MetricsService,

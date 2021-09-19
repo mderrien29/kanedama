@@ -11,7 +11,7 @@ describe('ApiService', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forRoot({ envFilePath: '.env.test' })],
+      imports: [ConfigModule.forRoot({ envFilePath: '.env' })],
       providers: [
         ApiService,
         { provide: 'HttpService', useFactory: () => httpServiceMock },

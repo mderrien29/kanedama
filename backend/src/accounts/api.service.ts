@@ -12,8 +12,8 @@ export class ApiService {
     private readonly configService: ConfigService,
   ) {}
 
-  private get accountsBaseUrl() {
-    return this.configService.get('ACCOUNT_URI');
+  private get apiBaseUrl() {
+    return this.configService.get('API_HOST');
   }
 
   private async request<T>(url: string): Promise<T> {
@@ -24,12 +24,12 @@ export class ApiService {
   }
 
   public getAccounts(): Promise<AccountDto[]> {
-    const url = this.accountsBaseUrl;
+    const url = `${this.apiBaseUrl}/accounts`;
     return this.request(url);
   }
 
   public getOldestTransaction(account: string): Promise<TransactionDto> {
-    const url = `${this.accountsBaseUrl}/${account}/transactions`; // TODO move
+    const url = `${this.apiBaseUrl}/accounts/${account}/transactions`; // TODO move
     return this.request(url);
   }
 
@@ -53,7 +53,7 @@ export class ApiService {
     endDate: Date,
   ): string {
     return `${
-      this.accountsBaseUrl
-    }/${account}/transactions?from=${startDate.toISOString()}&to=${endDate.toISOString()}`;
+      this.apiBaseUrl
+    }/accounts/${account}/transactions?from=${startDate.toISOString()}&to=${endDate.toISOString()}`;
   }
 }

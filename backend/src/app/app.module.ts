@@ -8,7 +8,7 @@ import { AppService } from './app.service';
 @Module({
   imports: [
     AccountsModule,
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env.dev' }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
   ],
   controllers: [AppController],
   providers: [AppService],
