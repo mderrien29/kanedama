@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ApiService getAccounts should return the result from the Api in a promise 1`] = `undefined`;
+exports[`ApiService getAccounts should return the result from the Api in a promise 1`] = `"valueReturnedByApi"`;
 
 exports[`ApiService getAccounts should use the HttpService to call the expected url 1`] = `
 Array [
@@ -10,7 +10,7 @@ Array [
 ]
 `;
 
-exports[`ApiService getOldestTransaction should return the result from the Api in a promise 1`] = `undefined`;
+exports[`ApiService getOldestTransaction should return the result from the Api in a promise 1`] = `"valueReturnedByApi"`;
 
 exports[`ApiService getOldestTransaction should use the HttpService to call the expected url 1`] = `
 Array [
@@ -20,7 +20,7 @@ Array [
 ]
 `;
 
-exports[`ApiService getTransactions should return the result from the Api in a promise 1`] = `undefined`;
+exports[`ApiService getTransactions should return the result from the Api in a promise 1`] = `"valueReturnedByApi"`;
 
 exports[`ApiService getTransactions should use the HttpService to call the expected url 1`] = `
 Array [

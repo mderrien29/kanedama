@@ -6,8 +6,9 @@ import { ApiService } from './api.service';
 
 describe('ApiService', () => {
   let apiService: ApiService;
-  const getMock = jest.fn(() => of({}));
-  const httpServiceMock = { get: getMock };
+  const httpServiceMock = {
+    get: jest.fn(() => of({ data: 'valueReturnedByApi' })),
+  };
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -28,8 +29,8 @@ describe('ApiService', () => {
   describe('getAccounts', () => {
     it('should use the HttpService to call the expected url', async () => {
       await apiService.getAccounts();
-      expect(getMock).toHaveBeenCalled();
-      expect(getMock.mock.calls).toMatchSnapshot();
+      expect(httpServiceMock.get).toHaveBeenCalled();
+      expect(httpServiceMock.get.mock.calls).toMatchSnapshot();
     });
 
     it('should return the result from the Api in a promise', async () => {
@@ -45,8 +46,8 @@ describe('ApiService', () => {
         new Date('2020-08-30'),
         new Date('2020-01-01'),
       );
-      expect(getMock).toHaveBeenCalled();
-      expect(getMock.mock.calls).toMatchSnapshot();
+      expect(httpServiceMock.get).toHaveBeenCalled();
+      expect(httpServiceMock.get.mock.calls).toMatchSnapshot();
     });
 
     it('should return the result from the Api in a promise', async () => {
@@ -62,8 +63,8 @@ describe('ApiService', () => {
   describe('getOldestTransaction', () => {
     it('should use the HttpService to call the expected url', async () => {
       await apiService.getOldestTransaction('accountId');
-      expect(getMock).toHaveBeenCalled();
-      expect(getMock.mock.calls).toMatchSnapshot();
+      expect(httpServiceMock.get).toHaveBeenCalled();
+      expect(httpServiceMock.get.mock.calls).toMatchSnapshot();
     });
 
     it('should return the result from the Api in a promise', async () => {
