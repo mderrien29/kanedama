@@ -1,0 +1,14 @@
+[
+  {
+    "account_id": "id",
+    "account_type": "ACCOUNT",
+    "iban": "iban",
+    "swift_bic": "bic",
+    "sort_code": "sort",
+    "account_number": "1234",
+    "currency": "USD",
+    "available": 10000,
+    "current": 10000,
+    "update_timestamp": "2021-08-30"
+  }
+]

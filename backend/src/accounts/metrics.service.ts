@@ -23,7 +23,7 @@ export class MetricsService {
       3,
     );
     const averageRecentIncome = this.calculateAverageIncomeLastMonths(
-      transactions,
+      transactionsOrderedByDate,
       6,
     );
 
@@ -136,7 +136,7 @@ export class MetricsService {
     transaction: TransactionDto,
     recentTreshold: Date,
   ): boolean {
-    const transactionDate = new Date(transaction.timestamp);
+    const transactionDate = new Date(transaction?.timestamp);
     return transactionDate.getTime() > recentTreshold.getTime();
   }
 

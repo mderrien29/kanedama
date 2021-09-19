@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountsService getAllTransactions should return the expected result 1`] = `
+Array [
+  Object {
+    "amount": 1000,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2019-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 10,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": -20,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 100,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-31",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 5,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-10-20",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": -100,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-11-01",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 1000,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2019-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 10,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": -20,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 100,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-31",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 5,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-10-20",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": -100,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-11-01",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+]
+`;
+
+exports[`AccountsService getAllTransactionsFromAccount should call ApiService.getOldestTransaction with the expected parameters 1`] = `
+Array [
+  Array [
+    "accountId",
+  ],
+]
+`;
+
+exports[`AccountsService getAllTransactionsFromAccount should call ApiService.getTransactions with the expected parameters 1`] = `
+Array [
+  Array [
+    "accountId",
+    2019-08-30T00:00:00.000Z,
+    2020-10-15T00:00:00.000Z,
+  ],
+  Array [
+    "accountId",
+    2020-10-15T00:00:00.000Z,
+    2021-12-01T00:00:00.000Z,
+  ],
+  Array [
+    "accountId",
+    2019-08-30T00:00:00.000Z,
+    2020-10-15T00:00:00.000Z,
+  ],
+  Array [
+    "accountId",
+    2020-10-15T00:00:00.000Z,
+    2021-12-01T00:00:00.000Z,
+  ],
+]
+`;
+
+exports[`AccountsService getAllTransactionsFromAccount should return the expected result 1`] = `
+Array [
+  Object {
+    "amount": 1000,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2019-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 10,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": -20,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 100,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-31",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 5,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-10-20",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": -100,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-11-01",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 1000,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2019-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 10,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": -20,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 100,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-31",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 5,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-10-20",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": -100,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-11-01",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+]
+`;
+
+exports[`AccountsService getUserAccounts should return the expected result 1`] = `
+Array [
+  Object {
+    "account_id": "id",
+    "account_number": "1234",
+    "account_type": "ACCOUNT",
+    "available": 10000,
+    "currency": "USD",
+    "current": 10000,
+    "iban": "iban",
+    "sort_code": "sort",
+    "swift_bic": "bic",
+    "update_timestamp": "2021-08-30",
+  },
+]
+`;

@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MetricsService calculateAccountAmountOverTime should return the expected result 1`] = `
+Array [
+  10000,
+  10100,
+  10095,
+  9995,
+  10015,
+  10005,
+  9005,
+]
+`;
+
+exports[`MetricsService calculateAverageIncomeLastMonths should return the average last 2 months 1`] = `5`;
+
+exports[`MetricsService calculateAverageIncomeLastMonths should return the average last 6 months 1`] = `38.333333333333336`;
+
+exports[`MetricsService calculateMinMaxBalance should return the expected result for test case 1 1`] = `0`;
+
+exports[`MetricsService calculateMinMaxBalance should return the expected result for test case 1 2`] = `3`;
+
+exports[`MetricsService calculateMinMaxBalance should return the expected result for test case 2 1`] = `-1`;
+
+exports[`MetricsService calculateMinMaxBalance should return the expected result for test case 2 2`] = `100`;
+
+exports[`MetricsService getUserMetrics should return the expected result 1`] = `
+Object {
+  "3_years_activity": true,
+  "6_month_average_income": 38,
+  "max_balance": 10100,
+  "min_balance": 9005,
+}
+`;

@@ -1,0 +1,50 @@
+[
+  {
+    "timestamp": "2019-08-30",
+    "transaction_type": "type",
+    "transaction_category": "category",
+    "amount": 1000,
+    "currency": "GBP",
+    "status": "status"
+  },
+  {
+    "timestamp": "2020-08-30",
+    "transaction_type": "type",
+    "transaction_category": "category",
+    "amount": 10,
+    "currency": "GBP",
+    "status": "status"
+  },
+  {
+    "timestamp": "2020-08-30",
+    "transaction_type": "type",
+    "transaction_category": "category",
+    "amount": -20,
+    "currency": "GBP",
+    "status": "status"
+  },
+  {
+    "timestamp": "2020-08-31",
+    "transaction_type": "type",
+    "transaction_category": "category",
+    "amount": 100,
+    "currency": "GBP",
+    "status": "status"
+  },
+  {
+    "timestamp": "2020-10-20",
+    "transaction_type": "type",
+    "transaction_category": "category",
+    "amount": 5,
+    "currency": "GBP",
+    "status": "status"
+  },
+  {
+    "timestamp": "2020-11-01",
+    "transaction_type": "type",
+    "transaction_category": "category",
+    "amount": -100,
+    "currency": "GBP",
+    "status": "status"
+  }
+]
