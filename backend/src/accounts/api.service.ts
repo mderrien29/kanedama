@@ -1,6 +1,7 @@
 import { Injectable, HttpService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { map } from 'rxjs/operators';
+import * as QueryString from 'querystring';
 
 import { TransactionDto } from 'src/common/dtos/transaction.dto';
 import { AccountDto } from 'src/common/dtos/account.dto';
@@ -29,7 +30,7 @@ export class ApiService {
   }
 
   public getOldestTransaction(account: string): Promise<TransactionDto> {
-    const url = `${this.apiBaseUrl}/accounts/${account}/transactions`; // TODO move
+    const url = this.formatTransactionUrl(account);
     return this.request(url);
   }
 
@@ -46,14 +47,22 @@ export class ApiService {
     return this.request(transactionsUrl);
   }
 
-  // TODO use package to add params
   private formatTransactionUrl(
     account: string,
-    startDate: Date,
-    endDate: Date,
+    startDate?: Date,
+    endDate?: Date,
   ): string {
-    return `${
-      this.apiBaseUrl
-    }/accounts/${account}/transactions?from=${startDate.toISOString()}&to=${endDate.toISOString()}`;
+    let uri = `${this.apiBaseUrl}/accounts/${account}/transactions`;
+
+    if (startDate && endDate) {
+      const params = QueryString.encode({
+        from: startDate.toISOString(),
+        to: endDate.toISOString(),
+      });
+
+      uri += `?${params}`;
+    }
+
+    return uri;
   }
 }

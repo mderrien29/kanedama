@@ -21,10 +21,10 @@ Array [
     "https://kata.getmansa.com/accounts",
   ],
   Array [
-    "https://kata.getmansa.com/accounts/accountId/transactions?from=2020-08-30T00:00:00.000Z&to=2020-01-01T00:00:00.000Z",
+    "https://kata.getmansa.com/accounts/accountId/transactions?from=2020-08-30T00%3A00%3A00.000Z&to=2020-01-01T00%3A00%3A00.000Z",
   ],
   Array [
-    "https://kata.getmansa.com/accounts/accountId/transactions?from=2020-08-30T00:00:00.000Z&to=2020-01-01T00:00:00.000Z",
+    "https://kata.getmansa.com/accounts/accountId/transactions?from=2020-08-30T00%3A00%3A00.000Z&to=2020-01-01T00%3A00%3A00.000Z",
   ],
   Array [
     "https://kata.getmansa.com/accounts/accountId/transactions",
@@ -43,7 +43,7 @@ Array [
     "https://kata.getmansa.com/accounts",
   ],
   Array [
-    "https://kata.getmansa.com/accounts/accountId/transactions?from=2020-08-30T00:00:00.000Z&to=2020-01-01T00:00:00.000Z",
+    "https://kata.getmansa.com/accounts/accountId/transactions?from=2020-08-30T00%3A00%3A00.000Z&to=2020-01-01T00%3A00%3A00.000Z",
   ],
 ]
 `;

@@ -6,10 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-  imports: [
-    AccountsModule,
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
-  ],
+  imports: [AccountsModule, ConfigModule.forRoot({ isGlobal: true })],
   controllers: [AppController],
   providers: [AppService],
 })
