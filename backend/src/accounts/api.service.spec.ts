@@ -21,6 +21,10 @@ describe('ApiService', () => {
     apiService = app.get<ApiService>(ApiService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('getAccounts', () => {
     it('should use the HttpService to call the expected url', async () => {
       await apiService.getAccounts();

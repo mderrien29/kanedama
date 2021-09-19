@@ -1,17 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AppController } from './app.controller';
+import * as userMetrics from '../../test/resources/user-metrics.json';
 
 describe('AppController', () => {
   let appController: AppController;
   const appServiceMock = {
-    getAnswer: jest.fn(() => ({
-      '6_month_average_income': 407,
-      '3_years_activity': true,
-      max_balance: 19540,
-      min_balance: -4285,
-    })),
-  }; // TODO better mock ?
+    getAnswer: jest.fn(() => userMetrics),
+  };
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -20,6 +16,10 @@ describe('AppController', () => {
     }).compile();
 
     appController = app.get<AppController>(AppController);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('GET /answer', () => {

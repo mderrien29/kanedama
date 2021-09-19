@@ -26,6 +26,10 @@ describe('AccountsService', () => {
     accountsService = app.get<AccountsService>(AccountsService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('getUserAccounts', () => {
     it('should return the expected result', async () => {
       const accounts = await accountsService.getUserAccounts();

@@ -28,6 +28,10 @@ describe('AppService', () => {
     appService = app.get<AppService>(AppService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('getAnswer', () => {
     it('should call AppService with the expected parameters', async () => {
       await appService.getAnswer();

@@ -18,6 +18,10 @@ describe('MetricsService', () => {
     metricsService = app.get<MetricsService>(MetricsService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('getUserMetrics', () => {
     it('should return the expected result', () => {
       const userMetrics = metricsService.getUserMetrics(
