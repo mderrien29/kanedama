@@ -100,3 +100,17 @@ Object {
   "min_balance": -4285,
 }
 `;
+
+exports[`AppService getAnswer should throw human readable error if API fails 1`] = `
+Object {
+  "error": "Application failed to retrieve data from API, due to Error: mock",
+  "status": 500,
+}
+`;
+
+exports[`AppService getAnswer should throw human readable error if calculations fails 1`] = `
+Object {
+  "error": "Application failed to calculate metrics, due to Error: mock",
+  "status": 500,
+}
+`;

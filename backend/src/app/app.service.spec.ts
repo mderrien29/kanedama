@@ -53,5 +53,22 @@ describe('AppService', () => {
       const answer = await appService.getAnswer();
       expect(answer).toMatchSnapshot();
     });
+
+    it('should throw human readable error if API fails', async () => {
+      accountsServiceMock.getAllTransactions.mockImplementationOnce(() => {
+        throw new Error('mock');
+      });
+
+      // rejects does not work, related issue : https://github.com/facebook/jest/issues/4946
+      appService.getAnswer().catch((e) => expect(e.response).toMatchSnapshot());
+    });
+
+    it('should throw human readable error if calculations fails', async () => {
+      metricsServiceMock.getUserMetrics.mockImplementationOnce(() => {
+        throw new Error('mock');
+      });
+
+      appService.getAnswer().catch((e) => expect(e.response).toMatchSnapshot());
+    });
   });
 });
