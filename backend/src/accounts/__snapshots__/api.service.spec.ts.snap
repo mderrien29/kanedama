@@ -25,7 +25,7 @@ exports[`ApiService getTransactions should return the result from the Api in a p
 exports[`ApiService getTransactions should use the HttpService to call the expected url 1`] = `
 Array [
   Array [
-    "https://kata.getmansa.com/accounts/accountId/transactions?from=2020-08-30T00%3A00%3A00.000Z&to=2020-01-01T00%3A00%3A00.000Z",
+    "https://kata.getmansa.com/accounts/accountId/transactions?from=2020-08-30T00%3A00%3A00.000Z&to=2021-01-01T00%3A00%3A00.000Z",
   ],
 ]
 `;

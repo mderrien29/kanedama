@@ -44,7 +44,7 @@ describe('ApiService', () => {
       await apiService.getTransactions(
         'accountId',
         new Date('2020-08-30'),
-        new Date('2020-01-01'),
+        new Date('2021-01-01'),
       );
       expect(httpServiceMock.get).toHaveBeenCalled();
       expect(httpServiceMock.get.mock.calls).toMatchSnapshot();
@@ -54,7 +54,7 @@ describe('ApiService', () => {
       const answer = await apiService.getTransactions(
         'accountId',
         new Date('2020-08-30'),
-        new Date('2020-01-01'),
+        new Date('2021-01-01'),
       );
       expect(answer).toMatchSnapshot();
     });

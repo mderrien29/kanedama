@@ -98,6 +98,54 @@ Array [
     "transaction_category": "category",
     "transaction_type": "type",
   },
+  Object {
+    "amount": 1000,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2019-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 10,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": -20,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 100,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-31",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 5,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-10-20",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": -100,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-11-01",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
 ]
 `;
 
@@ -114,11 +162,16 @@ Array [
   Array [
     "accountId",
     2019-08-30T00:00:00.000Z,
-    2020-10-15T00:00:00.000Z,
+    2020-08-29T00:00:00.000Z,
   ],
   Array [
     "accountId",
-    2020-10-15T00:00:00.000Z,
+    2020-08-29T00:00:00.000Z,
+    2021-08-29T00:00:00.000Z,
+  ],
+  Array [
+    "accountId",
+    2021-08-29T00:00:00.000Z,
     2021-12-01T00:00:00.000Z,
   ],
 ]
@@ -126,6 +179,54 @@ Array [
 
 exports[`AccountsService getAllTransactionsFromAccount should return the expected result 1`] = `
 Array [
+  Object {
+    "amount": 1000,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2019-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 10,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": -20,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-30",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 100,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-08-31",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": 5,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-10-20",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
+  Object {
+    "amount": -100,
+    "currency": "GBP",
+    "status": "status",
+    "timestamp": "2020-11-01",
+    "transaction_category": "category",
+    "transaction_type": "type",
+  },
   Object {
     "amount": 1000,
     "currency": "GBP",

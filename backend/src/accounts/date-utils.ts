@@ -21,12 +21,15 @@ export const substractMonthToDate = (
   return new Date(startDate.setMonth(startDate.getMonth() - numberOfMonths));
 };
 
-// could have issue with gap years
+// Technically, not yearly, but in chunks of 365 days
 export const getYearlyIntervalFromDate = (
   startDate: Date,
   endDate = new Date(),
 ): DateInterval[] => {
-  const numberOfChunks = endDate.getFullYear() - startDate.getFullYear();
+  const millisecondsIn365days = 365 * 24 * 60 * 60 * 1000;
+  const differenceInMilliseconds = endDate.getTime() - startDate.getTime();
+  const numberOfChunks = differenceInMilliseconds / millisecondsIn365days;
+
   const dateIntervals = chunkDateRange(startDate, endDate, numberOfChunks);
   return dateIntervals;
 };
