@@ -2,6 +2,10 @@
 <h1 align="center">Mansa's Kanedama</h1>
 <p align="center">Take home test to <b>join us</b> 💜</p>
 
+## Explanations & Choices
+
+Please read : [](./docs/DECISIONS.md)
+
 ## Introduction
 
 This project aims to evaluate candidates applying for a position in our
@@ -35,6 +39,7 @@ We want you to write code that meets the highest industry standard. It must be
 **fast**, **robust**, **readable**, and you need to include **tests** as well.
 
 Good luck and above all, have fun!
+
 
 ## The Weapons we provide you
 
