@@ -8,7 +8,7 @@ I hope this is not too long to read, i tried adding some lighter comments to kee
 
 So, the application module. 
 Nothing much to say here, it's (what i think is) textbook NestJS.
-I tried to not modify it too much, so the application could gain some functionalities in the future, so everything happens in the AccountsModule.
+I tried to not modify it too much, so the application could gain some functionalities in the future, everything happens in the AccountsModule.
 
 /answer -> AppController.answer -> AppService.getAnswer -> ...
 
@@ -40,9 +40,9 @@ I decided to move all date utilities to a separate file : `date-utils.ts`. It's 
 
 Since we need to make a lot of calls to the Api quickly, i made use of `Promise.all` to start all request asap and wait for their completion.
 
-To cut a date range into multiple chunks (to deal with the API 365 days limit), i made use of a small (but stable last 7 years) package. Sadly the `years` chunks where just a tad too big for the Api, so i had to do some maths.
+To cut a date range into multiple chunks (to deal with the API 365 days limit), i made use of a small (but stable last 7 years) package. Sadly the `years` chunks where just a tad too big for the Api, so i had to do some maths for api-friendly 365 days chunks.
 
-Something i did not do (and might have if this was a bigger project) : Making a `UserAccounts` object, which would old the accounts, transactions per account and a few utilities. This would allow to have a single public function like `retrieveUserData`. However, this is a bit useless for the current application IMO, and this would make the `Promise.all` a bit more complex so i did not want to over-engineer this. Also it's not too hard to implement in the future so nothing is lost.
+Something i did not do (and might have if this was a bigger project) : Making a `UserAccounts` object, which would hold the accounts, transactions per account and a few utilities. This would allow to have a single public function like `retrieveUserData`. However, this is a bit useless for the current application IMO, and this would make the `Promise.all` a bit more complex so i did not want to over-engineer this. Also it's not too hard to implement in the future so nothing is lost.
 
 So, currently we retrieve an array of accounts, and an array of transactions (mixed for all accounts).
 
@@ -50,7 +50,8 @@ So, currently we retrieve an array of accounts, and an array of transactions (mi
 
 Now that we have the data, let's get some metrics from it. (Note: I hate answer as a variable name, so i use `metrics`)
 
-For performance reasons, we sort the list once, and use the fact the list is sorted to retrieve the last transaction easily. I HATE this. Basically, nothing is currently there to help the future developer modify the application, and he might break things by sending an un-ordered list to some functions which assumes the list is sorted. If we had the `UserAccounts` object, we could have a function which would "cache" the sorting of the list, and make sure each function is using the sorted list. I hesitated a lot to add it at this point.
+For performance reasons, we sort the list once, and use the fact the list is sorted to retrieve the last transaction easily. 
+I HATE this. Basically, nothing is currently there to help the future developer modify the application, and he might break things by sending an un-ordered list to some functions which assumes the list is sorted. If we had the `UserAccounts` object, we could have a function which would "cache" the sorting of the list, and make sure each function is using the sorted list. I hesitated a lot to add it at this point.
 
 `calculateAccountAmountOverTime` was quite fun to write. Since we do not know the original amount the user had on the account, we have to calculate the amounts from now and go backward in time.
 
@@ -64,13 +65,15 @@ Everyone favorite part.
 
 I love snapshots. Snapshots are cool. Snapshots are so lazy and i love it. Snapshots are easy to update when you make a profound modification on the code. Code rigidity is a code smell, so why would it not be one in the tests ? Maybe i am simply too lazy. Did i tell you how much i love snapshots ?
 
-For the same reason, i do not like testing private methods. They are more "implementation details" in my mind. Also, clean code suggest to create a method for every `if()`, `forEach()`, etc. Testing that fluff just makes the program harder to update.
+The rest of the paragraph is just a lot of ranting about testing private methods.
+
+I do not like testing private methods. They are more "implementation details" in my mind. Also, clean code suggest to create a method for every `if()`, `forEach()`, etc. Testing that fluff just makes the program harder to update.
 
 In this case, the coverage is quite good while only testing public methods, so i think there is no real need to manually test them.
 
 But it seems to be a hot topic on the internet, so please comment your opinion under this video and click the notification bell :).
 
-TDD is not yet natural for me so i did not use it. I think it's not as great as lots of people think it is (did VW cars truly emit less CO2 ?), but if it's a requirement it's something i can do ofc. 
+TDD is not yet natural for me so i did not use it. I think it's not as great as lots of people think it is (did VW cars truly emit less CO2 ? or did TDD pervert them ?), but if it's a requirement it's something i can do ofc. 
 
 ### E2E
 
@@ -81,14 +84,14 @@ But it really depends on how the build and QA testing is done.
 ## I hope this was not needed
 
 - Logging (using NestJS logger)
-- Api reponse format validation (using typeguards and class-validator)
+- Api reponse format validation (i was excited to find a nice use for typeguards and class-validator)
 - More try catch (in the end i would always end with a 500 anyway)
 
 ## In case this wasn't good enough
 
 How sad.
-If that's not too much to ask, could you please explain to me what was not incorrect or insufisant :(
-I'd be quite crossed if i spent that much time into an exercise and could not have at least some feedbacks to improve !
+If that's not too much to ask, could you please explain to me what was incorrect or insufisant :(
+I did spent quite a bit of time into this exercise and would love to have some feedbacks to improve !
 Thank you for your time.
 
 ## In case this was good enough
