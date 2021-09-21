@@ -56,9 +56,19 @@ export class MetricsService {
     min: number;
     max: number;
   } {
-    // faster than using spread operator on large arrays
-    const max = Math.max.apply(null, amountOverTime);
-    const min = Math.min.apply(null, amountOverTime);
+    // this is faster than using Math.min/Math.max
+    let min = amountOverTime[0];
+    let max = amountOverTime[0];
+
+    amountOverTime.forEach((amount) => {
+      if (amount < min) {
+        min = amount;
+      }
+      if (amount > max) {
+        max = amount;
+      }
+    });
+
     return { min, max };
   }
 

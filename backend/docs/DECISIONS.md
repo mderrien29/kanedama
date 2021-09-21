@@ -12,7 +12,7 @@ I tried to not modify it too much, so the application could gain some functional
 
 /answer -> AppController.answer -> AppService.getAnswer -> ...
 
-Only thing i added is some human readable error messages, which might be useless.
+Only thing i added is some human readable error messages, which might be useless now that i think of it.
 
 ## Accounts Module
 
@@ -34,13 +34,13 @@ Also, since i am a bit rusty with rxjs, which is used by the HttpModule from nes
 ### Accounts Service
 
 The second issue is using this Api to retrieve the data we need. But what do we need ? 
-We need to calculate the maximum (and minimum) balance of the whole user (all accounts). So, we need to calculate the balance after every transactions. Basically, we need everything !
+We need to calculate the maximum (and minimum) balance of the whole user (all accounts). So, we need to calculate the total user balance after every transactions... Basically, we need everything !
 
 I decided to move all date utilities to a separate file : `date-utils.ts`. It's not a nestJS file, so there might be a nest-ier way to do this (`DateUtilsService` ?) but it works nicely and keeps things simple.
 
 Since we need to make a lot of calls to the Api quickly, i made use of `Promise.all` to start all request asap and wait for their completion.
 
-To cut a date range into multiple chunks (to deal with the API 365 days limit), i made use of a small (but stable last 7 years) package. Sadly the `years` chunks where just a tad too big for the Api, so i had to do some maths for api-friendly 365 days chunks.
+To cut a date range into multiple chunks (to deal with the API 365 days limit), i made use of a small (but stable last 7 years) package. Sadly the `years` chunks where just a tad too big for the Api, so i had to do some maths for api-friendly 365 days chunks. The name is still yearly, even if it's 0.2422 of a day shorter than a year but i assume nobody is going to complain.
 
 Something i did not do (and might have if this was a bigger project) : Making a `UserAccounts` object, which would hold the accounts, transactions per account and a few utilities. This would allow to have a single public function like `retrieveUserData`. However, this is a bit useless for the current application IMO, and this would make the `Promise.all` a bit more complex so i did not want to over-engineer this. Also it's not too hard to implement in the future so nothing is lost.
 
@@ -48,7 +48,7 @@ So, currently we retrieve an array of accounts, and an array of transactions (mi
 
 ### Metrics Service
 
-Now that we have the data, let's get some metrics from it. (Note: I hate answer as a variable name, so i use `metrics`)
+Now that we have the data, let's get some metrics from it. (Note: I do not like answer as a variable name, so i use `metrics`)
 
 For performance reasons, we sort the list once, and use the fact the list is sorted to retrieve the last transaction easily. 
 I HATE this. Basically, nothing is currently there to help the future developer modify the application, and he might break things by sending an un-ordered list to some functions which assumes the list is sorted. If we had the `UserAccounts` object, we could have a function which would "cache" the sorting of the list, and make sure each function is using the sorted list. I hesitated a lot to add it at this point.
@@ -73,7 +73,7 @@ In this case, the coverage is quite good while only testing public methods, so i
 
 But it seems to be a hot topic on the internet, so please comment your opinion under this video and click the notification bell :).
 
-TDD is not yet natural for me so i did not use it. I think it's not as great as lots of people think it is (did VW cars truly emit less CO2 ? or did TDD pervert them ?), but if it's a requirement it's something i can do ofc. 
+TDD is not yet natural for me so i did not use it. I think it's not as great as lots of people think it is (did VW cars truly emit less CO2 ? They did such a great job at TDD though), but if it's a requirement it's something i can do ofc. 
 
 ### E2E
 
@@ -83,6 +83,7 @@ But it really depends on how the build and QA testing is done.
 
 ## I hope this was not needed
 
+- UserAccounts data object (as soon are we need metrics by account it should be added)
 - Logging (using NestJS logger)
 - Api reponse format validation (i was excited to find a nice use for typeguards and class-validator)
 - More try catch (in the end i would always end with a 500 anyway)
@@ -97,3 +98,4 @@ Thank you for your time.
 ## In case this was good enough
 
 [Happy!](https://www.youtube.com/watch?v=ZbZSe6N_BXs)
+Please contact me !

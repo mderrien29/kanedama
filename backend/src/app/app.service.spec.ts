@@ -59,7 +59,7 @@ describe('AppService', () => {
         throw new Error('mock');
       });
 
-      // rejects does not work, related issue : https://github.com/facebook/jest/issues/4946
+      // expect.rejects does not work, related issue : https://github.com/facebook/jest/issues/4946
       appService.getAnswer().catch((e) => expect(e.response).toMatchSnapshot());
     });
 

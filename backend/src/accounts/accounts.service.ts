@@ -21,7 +21,7 @@ export class AccountsService {
         await this.getAllTransactionsFromAccount(account.account_id),
     );
 
-    return this.flattenArrayOfPromise(allTransactionsForEachAccount);
+    return this.flattenArrayOfPromiseOfArray(allTransactionsForEachAccount);
   }
 
   public async getAllTransactionsFromAccount(
@@ -43,10 +43,13 @@ export class AccountsService {
         ),
     );
 
-    return this.flattenArrayOfPromise(transactionsPerDateInterval);
+    return this.flattenArrayOfPromiseOfArray(transactionsPerDateInterval);
   }
 
-  private async flattenArrayOfPromise<T>(array: Promise<T[]>[]): Promise<T[]> {
-    return (await Promise.all(array)).flat(1);
+  private async flattenArrayOfPromiseOfArray<T>(
+    array: Promise<T[]>[],
+  ): Promise<T[]> {
+    const arrayOfArray = await Promise.all(array);
+    return arrayOfArray.flat(1);
   }
 }
